@@ -1,4 +1,10 @@
 {
-  dependencies : {
+  "name": "helloworld",
+  "main": "helloworld.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "yaml": "^1.7.2"
   }
 }
