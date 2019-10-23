@@ -10,8 +10,7 @@ jobs:
 
     steps:
       - checkout
-      - kube-orb/install-kubectl
+      - run: sudo apt-get update -y && apt-get install -y kubectl
       - run: yarn install
       - run: yarn run gulp build 
-orbs:
-  kube-orb: circleci/kubernetes@x.y.z
+
