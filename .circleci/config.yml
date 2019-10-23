@@ -5,10 +5,6 @@ jobs:
       name: node/default
       tag: '10.4'
     working_directory: ~/repo
-    branches:
-      only:
-        - master
-
     steps:
       - checkout
       - run: sudo apt-get update -y && apt-get install -y kubectl
