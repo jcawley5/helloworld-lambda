@@ -13,3 +13,5 @@ jobs:
       - kube-orb/install-kubectl
       - run: yarn install
       - run: yarn run gulp build 
+orbs:
+  kube-orb: circleci/kubernetes@x.y.z
