@@ -13,5 +13,5 @@ jobs:
       - run: kubectl get pods -n kyma-system
       - run: yarn install
       - run: yarn run gulp build 
-
-
+orbs:
+  node: circleci/node@1.1
