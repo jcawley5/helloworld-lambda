@@ -118,4 +118,4 @@ function createYaml(cb) {
 
 exports.watch = watchFiles
 exports.build = createYaml
-exports.default = defaultTask
+exports.deploy = deploy
