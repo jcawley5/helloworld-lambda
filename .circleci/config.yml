@@ -20,7 +20,16 @@ jobs:
           name: Deploying
           command: |
              export KUBECONFIG=/tmp/kubeconfig.json
-             kubectl config set-context --current --namespace=${NAMESPACE}
+             case $CIRCLE_BRANCH in
+                "develop")
+                     kubectl config set-context --current --namespace=${STAGING_NAMESPACE}
+                     echo "Deploying to Staging"
+                     ;;
+                  "master")
+                      echo "Deploying to Production"
+                      kubectl config set-context --current --namespace=${PRODUCTION_NAMESPACE}
+                      ;;
+             esac
              yarn run gulp build
              yarn run gulp deploy
              kubectl get pods -n ${NAMESPACE}
