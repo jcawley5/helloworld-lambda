@@ -36,8 +36,8 @@ function deploy(cb) {
        }
     });
     cb();
-  });
 }
+
 
 function createYaml(cb) {
   console.log('Creating yaml....');

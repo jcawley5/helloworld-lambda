@@ -1,6 +1,7 @@
 {
   "name": "helloworld",
   "main": "helloworld.js",
+  "license": "Unlicense",
   "dependencies": {
   },
   "devDependencies": {
