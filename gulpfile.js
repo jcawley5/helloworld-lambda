@@ -12,16 +12,20 @@ function defaultTask(cb) {
   cb();
 }
 
-
-
 function watchFiles(cb) {
   watch(['**/*.js','**/*.json'], function (cb) {
     // body omitted
     createYaml(cb);
     const packageData = fs.readFileSync('package.json');
     const packageJson = JSON.parse(packageData);
-    console.log("Deploying changes...");
-    exec(`kubectl apply -f ${packageJson.name}.yaml`, (err, stdout, stderr) => {
+    deploy(cb);
+  });
+}
+
+function deploy(cb) {
+  
+  console.log("Deploying changes...");
+  exec(`kubectl apply -f ${packageJson.name}.yaml`, (err, stdout, stderr) => {
        if (err) {
          console.error(err);
        } else {
@@ -98,7 +102,12 @@ function createYaml(cb) {
   var i = 0;
   if (envVarsDataJson) {
     for (varName in envVarsDataJson) {
-      functionYaml.spec.deployment.spec.template.spec.containers[0].env[i] = { "name": varName, "value": envVarsDataJson[varName] }
+      var val = envVarsDataJson[varName];
+      // check if there is a env var override
+      if (process.env[varName]) {
+         val = process.env[varName];
+      }
+      functionYaml.spec.deployment.spec.template.spec.containers[0].env[i] = { "name": varName, "value": val }
       i++
     }
   }
