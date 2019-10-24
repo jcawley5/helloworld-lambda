@@ -24,6 +24,9 @@ function watchFiles(cb) {
 
 function deploy(cb) {
   
+  const packageData = fs.readFileSync('package.json');
+  const packageJson = JSON.parse(packageData);
+
   console.log("Deploying changes...");
   exec(`kubectl apply -f ${packageJson.name}.yaml`, (err, stdout, stderr) => {
        if (err) {
