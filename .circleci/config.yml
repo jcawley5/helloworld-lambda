@@ -11,5 +11,8 @@ jobs:
     steps:
       - checkout
       - kube-orb/install-kubectl
+      - run: echo "${KUBECONFIG_FILE}" | base64 --decode >> kubeconfig.json
+      - run: export KUBECONFIG=./kubeconfig.json
+      - run: kubectl get pods -n kyma-system
       - run: yarn install
       - run: yarn run gulp build 
