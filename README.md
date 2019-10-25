@@ -94,7 +94,7 @@ base64 <kubeconfig_file>
 
 ### Tips
 * The mapping of branch names to namespaces can be configured in the CircleCI [config.yml)](./.circleci/config.yml)
-* Only the develop and master branches are configured to trigger the job. Edit the workflow in [config.yml)](./.circleci/config.yml) to add additional branches to the filter
+* Only the develop and master branches are configured to trigger the job. Edit the workflow in [config.yml](./.circleci/config.yml) to add additional branches to the filter
 
 ### Further improvements
 * Run tests
