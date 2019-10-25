@@ -1,0 +1,12 @@
+apiVersion: gateway.kyma-project.io/v1alpha2
+kind: Api
+metadata:
+  labels:
+    function: helloworld
+  name: helloworld
+spec:
+  authentication: []
+  hostname: helloworld-default
+  service:
+    name: helloworld
+    port: 8080
