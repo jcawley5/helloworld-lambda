@@ -79,6 +79,9 @@ Both master and develop deploy to the same cluster (shared kubeconfig file) howe
 
 ### Steps
 1. Enable your Github repo with your as a project in CircleCI
+
+![Setup Project](./images/setupproject.png)
+
 2. Base64 encode your kubeconfig file (use base64 command on linux/Macos or https://www.base64encode.org/)
 ```
 base64 <kubeconfig_file>
