@@ -2,7 +2,10 @@
 
 This is a simple example of how to setup a CI/CD workflow to automate the deployment of Functions to Kyma. We are using CircleCI for this example but it should be easy to configure another tool by reusing the build script (gulpfile.js) and taking what you need from the CircleCI configuration [(.circleci/config.yml)](./.circleci/config.yml)
 
-## Local Development
+1. [Local Development](#local)
+2. [Deploying with CircleCI](#circleci)
+
+## <a id="local></a> Local Development
 
 For local development you can use a Code Editor/IDE installed locally to make changes to your code and automate the deployment to the Kyma cluster. Developing locally has the advantage that we can use preferred development tools however the code changes still need to be deployed to a cluster for testing. 
 
@@ -60,9 +63,9 @@ gulp logs
 * This gulp build script requires that the package.json file has a value set for the name attribute. The name is used for the name of the Function that will be deployed. 
 * Other kubernetes resources (yaml files) can be deployed by adding them to the k8s directory
 
-## Deploying with CircleCI
+## <a id="circleci></a> Deploying with CircleCI
 
-The CircleCI config file can be found in [.circleci/config.yml)](./.circleci/config.yml). It is designed to be easily reused (as is gulfile) for deloying different functions. The CircleCI config.yml file is mostly delegating to the gulp build file [gulpfile.js](./gulpfile.js) so it should be easy enough to use this file as an example of how to deploy a Function using another CI/CD tool.
+The CircleCI config file can be found in [.circleci/config.yml](./.circleci/config.yml). It is designed to be easily reused (as is gulfile) for deloying different functions. The CircleCI config.yml file is mostly delegating to the gulp build file [gulpfile.js](./gulpfile.js) so it should be easy enough to use this file as an example of how to deploy a Function using another CI/CD tool.
 
 A simple workflow is configured based on 2 branches: 
 * master (production)
