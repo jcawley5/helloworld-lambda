@@ -20,6 +20,15 @@ jobs:
           name: Deploying
           command: |
              export KUBECONFIG=/tmp/kubeconfig.json
+             case $CIRCLE_BRANCH in
+                "develop")
+                     export NAMESPACE=${STAGING_NAMESPACE}
+                     ;;
+                  "master")
+                      export NAMESPACE=${PRODUCTION_NAMESPACE}
+                      ;;
+             esac
+             echo "Deploying to ${NAMESPACE}"
              kubectl config set-context --current --namespace=${NAMESPACE}
              yarn run gulp build
              yarn run gulp deploy
@@ -34,5 +43,5 @@ workflows:
        filters:
          branches:
            only: 
-             - master
-             - develop
+              - master
+              - develop
