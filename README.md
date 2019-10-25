@@ -87,6 +87,7 @@ base64 <kubeconfig_file>
 4. Create a new environment variable called 'PRODUCTION_NAMESPACE' using the target production namespace as a value
 5. Create a new environment variable called 'STAGING_NAMESPACE' using the target testing namespace as a value
 
+![Flow](./images/envvars.png)
 
 ### Tips
 * The mapping of branch names to namespaces can be configured in the CircleCI [config.yml)](./.circleci/config.yml)

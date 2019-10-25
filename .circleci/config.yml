@@ -30,7 +30,6 @@ jobs:
              esac
              echo "Deploying to ${NAMESPACE}"
              kubectl config set-context --current --namespace=${NAMESPACE}
-             yarn run gulp build
              yarn run gulp deploy
 orbs:
   node: circleci/node@1.1  
