@@ -1,16 +1,16 @@
 # Simple CI/CD example for Kyma Functions
 
-This is a simple example of how to setup a CI/CD workflow to automate the deployment of Functions to Kyma. We are using CircleCI for this example but it should be easy to configure another tool by reusing the build script (gulpfile.js) and taking what you need from the CircleCI configuration [(.circleci/config.yml)](./.circleci/config.yml)
+This is a simple example of how to setup a CI/CD workflow to automate the deployment of Functions to [Kyma](https://kyma-project.io/). We are using CircleCI for this example but it should be easy to configure another tool by reusing the build script (gulpfile.js) and taking what you need from the CircleCI configuration [(.circleci/config.yml)](./.circleci/config.yml)
 
 1. [Local Development](#local)
 2. [Deploying with CircleCI](#circleci)
 
 ## <a name="local"></a> Local Development
 
-For local development you can use a Code Editor/IDE installed locally to make changes to your code and automate the deployment to the Kyma cluster. Developing locally has the advantage that we can use preferred development tools however the code changes still need to be deployed to a cluster for testing. 
+For local development you can use a Code Editor/IDE installed locally to make changes to your code and automate the deployment to the Kyma cluster. Developing locally has the advantage that the developer can use their preferred development tools. Local development still means that code changes need to be deployed to a cluster for testing. 
 
 ### Prerequisites
-* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) (check the version for your Kyma cluster)
+* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) (check the version used for your Kyma cluster)
 * [kubeconfig file](https://kyma-project.io/docs/components/security/#details-iam-kubeconfig-service-get-the-kubeconfig-file-and-configure-the-cli) 
 * Node.js (>=8)
 
@@ -19,7 +19,7 @@ For local development you can use a Code Editor/IDE installed locally to make ch
 ```
 npm install --global gulp-cli 
 ```
-2. Follow the instructions [here] to setup kubectl to access your cluster. The generated kubeconfig file will expire after 8 hours so you might prefer to use an alternative method of connecting to your cluster (e.g. gcloud or azure CLI, Service Account file)
+2. Follow the instructions [here](https://kubernetes.io/docs/tasks/tools/install-kubectl/) to setup kubectl to access your cluster. The generated kubeconfig file will expire after 8 hours so you might prefer to use an alternative method of connecting to your cluster (e.g. gcloud or azure CLI, service account configuration file)
 3. Set the namespace where you will be deploying your changes
 ```
 kubectl config set-context --current --namespace=<namespace>
@@ -65,7 +65,7 @@ gulp logs
 
 ## <a name="circleci"></a> Deploying with CircleCI
 
-The CircleCI config file can be found in [.circleci/config.yml](./.circleci/config.yml). It is designed to be easily reused (as is gulfile) for deloying different functions. The CircleCI config.yml file is mostly delegating to the gulp build file [gulpfile.js](./gulpfile.js) so it should be easy enough to use this file as an example of how to deploy a Function using another CI/CD tool.
+The CircleCI config file can be found in [.circleci/config.yml](./.circleci/config.yml). It is designed to be easily reused (as is gulpfile.js) for deloying different functions. The CircleCI config.yml file is mostly delegating to the gulp build file [gulpfile.js](./gulpfile.js) so it should be easy enough to use this file as an example of how to deploy a Function using another CI/CD tool.
 
 A simple workflow is configured based on 2 branches: 
 * master (production)
@@ -73,7 +73,7 @@ A simple workflow is configured based on 2 branches:
 
 Both master and develop deploy to the same cluster (shared kubeconfig file) however it would be a simple change to support multiple clusters.
 
-* Developers have changes to test in the testing environment they submit a PR (or commit directly) to the develop branch 
+* When developers have changes to test in the testing environment they submit a PR (or commit directly) to the develop branch 
 * Once the PR is approved (or commit is made), the CircleCI job generates the Function yaml file and deploys the Function and other resources to the staging namespace
 * After testing, a PR is created from develop to the master branch
 * Once the PR is approved, the CircleCI job deployes the Function and other resources to the production namespace
