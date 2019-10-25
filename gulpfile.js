@@ -2,7 +2,7 @@ const { watch } = require('gulp');
 const yaml = require('yaml');
 const fs = require('fs');
 const { strOptions } = require('yaml/types');
-const {exec} = require('child_process');
+const { exec } = require('child_process');
 
 strOptions.defaultType = 'QUOTE_DOUBLE'
 
@@ -13,49 +13,90 @@ function defaultTask(cb) {
 }
 
 function watchFiles(cb) {
-  watch(['**/*.js','**/*.json'], function (cb) {
-    // body omitted
-    createYaml(cb);
-    const packageData = fs.readFileSync('package.json');
-    const packageJson = JSON.parse(packageData);
+  watch(['**/*.js', '**/*.json'], function autoDeploy(cb) {
     deploy(cb);
   });
 }
 
 function deploy(cb) {
-  
+
+
   const packageData = fs.readFileSync('package.json');
   const packageJson = JSON.parse(packageData);
 
+  createYaml();
+
   console.log("Deploying changes...");
   exec(`kubectl apply -f ${packageJson.name}.yaml`, (err, stdout, stderr) => {
-       if (err) {
-         console.error(err);
-       } else {
-         if (stdout)
-          console.log(`Successfully deployed: ${stdout}`);
-         if (stderr)
-          console.log(`${stderr}`);
-       }
-    });
-    // check the status of the deployed pod
+    if (err) {
+      console.error(err);
+    } else {
+      if (stdout)
+        console.log(`Successfully deployed: ${stdout}`);
+      fs.unlinkSync(`${packageJson.name}.yaml`);
+      if (stderr)
+        console.log(`${stderr}`);
+    }
+  });
+  // check the status of the deployed pod
   sleep(2000).then(() => {
-     exec(`kubectl get pods -l app=${packageJson.name}`, (err, stdout, stderr) => {
-       if (err) {
-         console.error(err);
-       } else {
-         if (stdout)
-          console.log(`${stdout}`);
-         if (stderr)
+    podStatus(cb);
+  });
+
+  // Apply any kubernetes resources
+  if (fs.existsSync('k8s') && fs.readdirSync('k8s').length > 0) {
+    console.log('Applying k8s resources');
+    exec(`kubectl apply -f k8s --recursive`, (err, stdout, stderr) => {
+      if (err) {
+        console.error(err);
+      } else {
+        if (stdout)
+          console.log(`Successfully applied config: ${stdout}`);
+        if (stderr)
           console.log(`${stderr}`);
-       }
+      }
     });
-    cb();
-   });
+  }
+  cb();
 }
 
+function podStatus(cb){
 
-function createYaml(cb) {
+  const packageData = fs.readFileSync('package.json');
+  const packageJson = JSON.parse(packageData);
+
+  exec(`kubectl get pods -l app=${packageJson.name}`, (err, stdout, stderr) => {
+    if (err) {
+      console.error(err);
+    } else {
+      if (stdout)
+        console.log(`${stdout}`);
+      if (stderr)
+        console.log(`${stderr}`);
+    }
+  });
+  cb();
+}
+
+function logs(cb){
+
+  const packageData = fs.readFileSync('package.json');
+  const packageJson = JSON.parse(packageData);
+
+  exec(`kubectl logs -l app=${packageJson.name} -c ${packageJson.name} --since=1h`, (err, stdout, stderr) => {
+    if (err) {
+      console.error(err);
+    } else {
+      if (stdout)
+        console.log(`${stdout}`);
+      if (stderr)
+        console.log(`${stderr}`);
+    }
+  });
+  cb();
+}
+
+function createYaml() {
   console.log('Creating yaml....');
 
   const packageData = fs.readFileSync('package.json');
@@ -121,7 +162,7 @@ function createYaml(cb) {
       var val = envVarsDataJson[varName];
       // check if there is a env var override
       if (process.env[varName]) {
-         val = process.env[varName];
+        val = process.env[varName];
       }
       functionYaml.spec.deployment.spec.template.spec.containers[0].env[i] = { "name": varName, "value": val }
       i++
@@ -129,7 +170,6 @@ function createYaml(cb) {
   }
   //console.log(yaml.stringify(functionYaml));
   fs.writeFileSync(`${packageJson.name}.yaml`, yaml.stringify(functionYaml));
-  cb();
 }
 
 const sleep = (milliseconds) => {
@@ -137,5 +177,6 @@ const sleep = (milliseconds) => {
 }
 
 exports.watch = watchFiles
-exports.build = createYaml
 exports.deploy = deploy
+exports.status = podStatus
+exports.logs = logs
