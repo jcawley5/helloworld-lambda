@@ -40,7 +40,7 @@ function deploy(cb) {
     });
     // check the status of the deployed pod
   sleep(2000).then(() => {
-     exec(`kubectl get pods -l ${packageJson.name}`, (err, stdout, stderr) => {
+     exec(`kubectl get pods -l app=${packageJson.name}`, (err, stdout, stderr) => {
        if (err) {
          console.error(err);
        } else {
