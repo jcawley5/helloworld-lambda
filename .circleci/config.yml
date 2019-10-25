@@ -32,7 +32,6 @@ jobs:
              kubectl config set-context --current --namespace=${NAMESPACE}
              yarn run gulp build
              yarn run gulp deploy
-             kubectl get pods -n ${NAMESPACE}
 orbs:
   node: circleci/node@1.1  
 workflows:
