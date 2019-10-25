@@ -1,6 +1,6 @@
 # Simple CI/CD example for Kyma Functions
 
-This is a simple example of how to setup a CI/CD workflow to automate the deployment of Functions to Kyma. We are using CircleCI for this example but it should be easy to configure another tool by reusing the build script (gulpfile.js) and taking what you need from the CircleCI configuration [.circleci/config.yml)](./.circleci/config.yml)
+This is a simple example of how to setup a CI/CD workflow to automate the deployment of Functions to Kyma. We are using CircleCI for this example but it should be easy to configure another tool by reusing the build script (gulpfile.js) and taking what you need from the CircleCI configuration [(.circleci/config.yml)](./.circleci/config.yml)
 
 ## Local Development
 
@@ -26,7 +26,7 @@ kubectl config set-context --current --namespace=<namespace>
 gulp watch
 ```
 Every change to a *.js or *.json will trigger a deployment. If you prefer to deploy more selectively, execute the following command instead
-``
+```
 gulp deploy
 ``` 
 ### Environment Variables
