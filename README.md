@@ -79,13 +79,22 @@ Both master and develop deploy to the same cluster (shared kubeconfig file) howe
 
 ### Steps
 1. Enable your Github repo with your as a project in CircleCI
-2. 
+2. Base64 encode your kubeconfig file (use base64 command on linux/Macos or https://www.base64encode.org/)
+```
+base64 <kubeconfig_file>
+```
+3. Create a new environment variable in the CirceCI job called 'KUBECONFIG_FILE', with the base64 encoded kubeconfig value
+4. Create a new environment variable called 'PRODUCTION_NAMESPACE' using the target production namespace as a value
+5. Create a new environment variable called 'STAGING_NAMESPACE' using the target testing namespace as a value
+
 
 ### Tips
 * The mapping of branch names to namespaces can be configured in the CircleCI [config.yml)](./.circleci/config.yml)
+* Only the develop and master branches are configured to trigger the job. Edit the workflow in [config.yml)](./.circleci/config.yml) to add additional branches to the filter
 
 ### Further improvements
 * Run tests
 * Test if deployment was successful
+
 
 
