@@ -96,6 +96,7 @@ base64 <kubeconfig_file>
 ![Flow](./images/envvars.png)
 
 ### Tips
+* Environment variables defined in the CircleCI job can override the variables defined in [envvars.json](./envvars.json)
 * The mapping of branch names to namespaces can be configured in the CircleCI [config.yml](./.circleci/config.yml)
 * Only the develop and master branches are configured to trigger the job. Edit the workflow in [config.yml](./.circleci/config.yml) to add additional branches to the filter
 
