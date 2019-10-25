@@ -39,7 +39,8 @@ function deploy(cb) {
        }
     });
     // check the status of the deployed pod
-    exec(`kubectl get pods -l ${packageJson.name}`, (err, stdout, stderr) => {
+  sleep(2000).then(() => {
+     exec(`kubectl get pods -l ${packageJson.name}`, (err, stdout, stderr) => {
        if (err) {
          console.error(err);
        } else {
@@ -50,6 +51,7 @@ function deploy(cb) {
        }
     });
     cb();
+   });
 }
 
 
@@ -128,6 +130,10 @@ function createYaml(cb) {
   //console.log(yaml.stringify(functionYaml));
   fs.writeFileSync(`${packageJson.name}.yaml`, yaml.stringify(functionYaml));
   cb();
+}
+
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
 exports.watch = watchFiles
