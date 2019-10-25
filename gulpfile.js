@@ -38,6 +38,17 @@ function deploy(cb) {
           console.log(`${stderr}`);
        }
     });
+    // check the status of the deployed pod
+    exec(`kubectl get pods -l ${packageJson.name}`, (err, stdout, stderr) => {
+       if (err) {
+         console.error(err);
+       } else {
+         if (stdout)
+          console.log(`${stdout}`);
+         if (stderr)
+          console.log(`${stderr}`);
+       }
+    });
     cb();
 }
 
