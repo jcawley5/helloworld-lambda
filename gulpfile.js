@@ -3,8 +3,7 @@ const yaml = require('yaml');
 const fs = require('fs');
 const { strOptions } = require('yaml/types');
 const { exec } = require('child_process');
-
-strOptions.defaultType = 'QUOTE_DOUBLE'
+const crypto = require('crypto');
 
 function defaultTask(cb) {
   // place code for your default task here
@@ -31,9 +30,10 @@ function deploy(cb) {
     if (err) {
       console.error(err);
     } else {
-      if (stdout)
+      if (stdout) { 
         console.log(`Successfully deployed: ${stdout}`);
-      fs.unlinkSync(`${packageJson.name}.yaml`);
+        fs.unlinkSync(`${packageJson.name}.yaml`);
+      }
       if (stderr)
         console.log(`${stderr}`);
     }
@@ -127,6 +127,8 @@ function createYaml() {
 
   const javascriptFunc = fs.readFileSync(packageJson.main).toString();
 
+  const sha256Str = crypto.createHash('sha256').update(javascriptFunc).digest('hex');
+
   var functionYaml = {
     "apiVersion": "kubeless.io/v1beta1",
     "kind": "Function",
@@ -137,6 +139,7 @@ function createYaml() {
       "name": packageJson.name
     },
     "spec": {
+      "checksum" : `sha256:${sha256Str}`,
       "deployment": {
         "spec": {
           "template": {
@@ -153,7 +156,8 @@ function createYaml() {
       "function": javascriptFunc,
       "runtime": "nodejs8",
       "type": "HTTP",
-      "handler": "handler.main"
+      "handler": "handler.main",
+      "function-content-type": "text"
     }
   }
   var i = 0;
