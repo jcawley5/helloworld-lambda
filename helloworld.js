@@ -1,5 +1,5 @@
 module.exports = {
   main: function(event, context) {
-    return "hello world 1234";
+    return "hello world 12345";
   }
 };

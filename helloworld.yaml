@@ -5,7 +5,7 @@ metadata:
     app: helloworld
   name: helloworld
 spec:
-  checksum: sha256:9f95c5b8ec8ab8276469ed6db61549b704925f650e61ea532e41bee60adf6d6b
+  checksum: sha256:006b947b0ee988828b1a52b9e3c92bbddf8516dabb31e63285db004d445e7ece
   deployment:
     spec:
       template:
@@ -31,7 +31,7 @@ spec:
   function: |
     module.exports = {
       main: function(event, context) {
-        return "hello world 1234";
+        return "hello world 12345";
       }
     };
   runtime: nodejs8
