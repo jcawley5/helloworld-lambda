@@ -2,8 +2,7 @@
   "name": "helloworld",
   "main": "helloworld.js",
   "license": "Unlicense",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "gulp": "^4.0.2",
     "yaml": "^1.7.2"
